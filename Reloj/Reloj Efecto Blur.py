@@ -56,7 +56,6 @@ class GestorClima:
     def actualizar_datos(self, callback_actualizar_ui=None):
         def tarea():
             try:
-                # 1. Obtener ubicación por IP
                 with urllib.request.urlopen("http://ip-api.com/json/", timeout=4) as response:
                     loc_data = json.loads(response.read().decode())
                     self.ciudad = loc_data.get("city", "Lima")
@@ -64,7 +63,6 @@ class GestorClima:
                     lat = loc_data.get("lat", -12.04637)
                     lon = loc_data.get("lon", -77.042793)
                 
-                # 2. Obtener clima por coordenadas
                 weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
                 with urllib.request.urlopen(weather_url, timeout=4) as w_response:
                     w_data = json.loads(w_response.read().decode())
@@ -172,16 +170,12 @@ class VistaRelojMinimalista:
         except Exception:
             pass
 
-        # Tarjeta principal semi-transparente
         self._lienzo.create_rectangle(40, 50, 360, 350, fill="#0d0e12", outline="#242836", width=2)
 
-        # Línea divisoria vertical dorada
         self._lienzo.create_line(175, 70, 175, 330, fill="#ffb30a", width=3)
 
-        # Línea divisoria horizontal en el lado derecho
         self._lienzo.create_line(195, 200, 340, 200, fill="#ffb30a", width=2)
 
-        # Componentes del Reloj (Lado Izquierdo)
         self._lbl_am_pm = self._lienzo.create_text(
             60, 190, text="--", font=("Arial", 14, "bold"), fill="#a4a9b8"
         )
@@ -192,7 +186,6 @@ class VistaRelojMinimalista:
             118, 245, text="00", font=("Arial", 64, "bold"), fill="#ffffff"
         )
 
-        # Componentes de Fecha (Lado Derecho Superior)
         self._lbl_mes = self._lienzo.create_text(
             265, 105, text="MES", font=("Arial", 18, "bold"), fill="#a4a9b8"
         )
@@ -200,7 +193,6 @@ class VistaRelojMinimalista:
             265, 155, text="00", font=("Arial", 36, "bold"), fill="#ffffff"
         )
 
-        # Componentes de Clima y Ubicación (Lado Derecho Inferior)
         self._lbl_ubicacion = self._lienzo.create_text(
             200, 230, text="📍 Cargando...", font=("Arial", 11, "bold"), fill="#ffffff", anchor="w"
         )
