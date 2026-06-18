@@ -41,19 +41,15 @@ class EvaluadorPeriodo:
 class MotorRenderBlur:
     @staticmethod
     def generar_fondo(ventana_padre: tk.Tk, ancho: int, alto: int, ruta_salida: str) -> ImageTk.PhotoImage:
-        # Creamos una imagen base completamente oscura usando Pillow
         img = Image.new("RGB", (ancho, alto), "#050508")
         from PIL import ImageDraw
         draw = ImageDraw.Draw(img)
         
-        # Dibujamos las formas de color directamente en la imagen antes del blur
         draw.ellipse([ancho * 0.1, alto * 0.1, ancho * 0.6, alto * 0.6], fill="#7000ff")
         draw.ellipse([ancho * 0.4, alto * 0.4, ancho * 0.85, alto * 0.85], fill="#00f2fe")
         
-        # Aplicamos el filtro de desenfoque gaussiano de forma nativa
         img_difuminada = img.filter(ImageFilter.GaussianBlur(radius=55))
         
-        # Convertimos la imagen procesada a un formato que Tkinter entienda
         resultado = ImageTk.PhotoImage(img_difuminada)
         return resultado
 
@@ -86,7 +82,6 @@ class VistaRelojMinimalista:
 
         self._lienzo.create_rectangle(50, 130, 350, 270, fill="#0b0c10", outline="#1f2430", width=1)
 
-        # Se eliminó "light" para evitar el crash de Tcl/Tk en entornos Windows
         self._lbl_hora = self._lienzo.create_text(
             195, 185, text="00:00", font=("Arial", 52, "bold"), fill="#ffffff"
         )
